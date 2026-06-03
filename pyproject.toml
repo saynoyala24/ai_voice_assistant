@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "digital-brain-cognitive-os"
+version = "0.1.0"
+description = "Persistent cognitive OS with a web AI-agent interface"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn[standard]>=0.30.0",
+  "pydantic>=2.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+  "httpx>=0.27.0",
+  "ruff>=0.6.0",
+]
+windows = [
+  "psutil>=6.0.0",
+  "pyautogui>=0.9.54",
+  "pillow>=10.4.0",
+  "mss>=9.0.1",
+  "pytesseract>=0.3.13",
+  "PySide6>=6.7.0",
+]
+ml = [
+  "torch>=2.4.0",
+  "faiss-cpu>=1.8.0",
+  "faster-whisper>=1.0.0",
+  "opencv-python>=4.10.0",
+]
+production = [
+  "digital-brain-cognitive-os[windows,ml]",
+]
+
+[project.scripts]
+digital-brain = "digital_brain.__main__:main"
+digital-brain-web = "digital_brain.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+digital_brain = ["static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
