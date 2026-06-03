@@ -9,6 +9,12 @@ const memoryTable = document.querySelector("#memoryTable");
 const memoryItems = document.querySelector("#memoryItems");
 const systemOutput = document.querySelector("#systemOutput");
 const actionOutput = document.querySelector("#actionOutput");
+const llmStatus = document.querySelector("#llmStatus");
+const llmProvider = document.querySelector("#llmProvider");
+const llmModel = document.querySelector("#llmModel");
+const llmBaseUrl = document.querySelector("#llmBaseUrl");
+const llmApiKeyEnv = document.querySelector("#llmApiKeyEnv");
+const modelList = document.querySelector("#modelList");
 
 function addMessage(role, text) {
   const node = document.createElement("div");
@@ -77,6 +83,15 @@ async function refreshMemory() {
   });
 }
 
+async function refreshLlmConfig() {
+  const config = await api("/api/llm/config");
+  llmProvider.value = config.provider;
+  llmModel.value = config.model;
+  llmBaseUrl.value = config.base_url;
+  llmApiKeyEnv.value = config.api_key_env;
+  llmStatus.textContent = config.provider === "off" ? "LLM off" : `${config.provider}: ${config.model || "default"}`;
+}
+
 chatForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const message = chatInput.value.trim();
@@ -88,6 +103,9 @@ chatForm.addEventListener("submit", async (event) => {
     body: JSON.stringify({ message }),
   });
   addMessage("agent", data.reply);
+  if (data.llm && !data.llm.ok) {
+    addMessage("agent", `LLM unavailable; used deterministic brain fallback. ${data.llm.error}`);
+  }
   renderState(data.state);
   refreshMemory();
 });
@@ -139,6 +157,26 @@ document.querySelector("#runAction").addEventListener("click", async () => {
   refreshMemory();
 });
 
+document.querySelector("#saveLlm").addEventListener("click", async () => {
+  const config = await api("/api/llm/config", {
+    method: "POST",
+    body: JSON.stringify({
+      provider: llmProvider.value,
+      model: llmModel.value.trim(),
+      base_url: llmBaseUrl.value.trim() || "http://127.0.0.1:11434",
+      api_key_env: llmApiKeyEnv.value.trim(),
+    }),
+  });
+  llmStatus.textContent = config.provider === "off" ? "LLM off" : `${config.provider}: ${config.model || "default"}`;
+  addMessage("agent", `Model settings saved: ${llmStatus.textContent}`);
+});
+
+document.querySelector("#loadModels").addEventListener("click", async () => {
+  const data = await api("/api/llm/models");
+  modelList.textContent = data.items.length ? data.items.join(", ") : "No Ollama models found or Ollama is offline.";
+});
+
 addMessage("agent", "Digital Brain online. I can think, remember, plan, observe the OS, and perform safe approved actions.");
 refreshState();
 refreshMemory();
+refreshLlmConfig();

@@ -62,7 +62,8 @@ class DigitalBrain:
     async def _idle_loop(self) -> None:
         while self.running:
             await asyncio.sleep(5)
-            self.dream()
+            loop = asyncio.get_running_loop()
+            await loop.run_in_executor(None, self.dream)
 
     def cycle(self, stimulus: Stimulus) -> CognitiveCycle:
         self.sensory_memory.store(stimulus)

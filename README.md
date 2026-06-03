@@ -28,6 +28,11 @@ Stimulus → Perception → Attention → Working Memory → World Model Update
 - Planning engine with fixed rollout simulation
 - Idle dream/reflection cycle
 - JSON snapshots for portable state inspection
+- Optional LLM language layer:
+  - off by default
+  - Ollama local models
+  - OpenAI-compatible endpoints
+  - model/provider selectable from the web UI
 
 ## Setup
 
@@ -46,6 +51,16 @@ digital-brain-web --host 127.0.0.1 --port 8000
 ```
 
 Open `http://127.0.0.1:8000`.
+
+The chat works without any LLM. If you want more natural language like ChatGPT, open the
+AI Model panel and choose:
+
+- `Off` for deterministic cognition only
+- `Ollama local` for local models such as `llama3.1`, `mistral`, or `qwen2.5`
+- `OpenAI-compatible endpoint` for a self-hosted compatible server
+
+No proprietary API is required. Always check the license of the model you choose; the app does
+not bundle copyrighted model weights.
 
 ## Run the optional Windows desktop GUI
 

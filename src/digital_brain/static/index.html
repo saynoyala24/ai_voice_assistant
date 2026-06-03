@@ -28,14 +28,50 @@
       <section class="grid">
         <article class="card chat-card">
           <div class="card-title">
-            <h2>Agent Chat</h2>
-            <span id="loopStatus" class="pill">loading</span>
+            <div>
+              <h2>Agent Chat</h2>
+              <p class="mini">ChatGPT-style interface powered by the cognitive loop + optional LLM.</p>
+            </div>
+            <div class="status-row">
+              <span id="llmStatus" class="pill">LLM off</span>
+              <span id="loopStatus" class="pill">loading</span>
+            </div>
           </div>
           <div id="chatLog" class="chat-log"></div>
           <form id="chatForm" class="chat-form">
             <input id="chatInput" autocomplete="off" placeholder="Ask the agent to think, plan, code, or learn..." />
             <button>Send</button>
           </form>
+        </article>
+
+        <article class="card">
+          <h2>AI Model</h2>
+          <p class="mini">Choose no LLM, Ollama local, or any OpenAI-compatible local/server endpoint.</p>
+          <div class="llm-settings">
+            <label>
+              Provider
+              <select id="llmProvider">
+                <option value="off">Off — deterministic brain only</option>
+                <option value="ollama">Ollama local</option>
+                <option value="openai-compatible">OpenAI-compatible endpoint</option>
+              </select>
+            </label>
+            <label>
+              Model
+              <input id="llmModel" placeholder="llama3.1, mistral, qwen2.5..." />
+            </label>
+            <label>
+              Base URL
+              <input id="llmBaseUrl" placeholder="http://127.0.0.1:11434" />
+            </label>
+            <label>
+              API key env var
+              <input id="llmApiKeyEnv" placeholder="optional, e.g. LOCAL_LLM_API_KEY" />
+            </label>
+            <button id="saveLlm" class="small">Save model settings</button>
+            <button id="loadModels" class="ghost small">List Ollama models</button>
+            <div id="modelList" class="mini"></div>
+          </div>
         </article>
 
         <article class="card">

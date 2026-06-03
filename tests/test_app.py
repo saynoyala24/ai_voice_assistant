@@ -31,3 +31,24 @@ def test_system_and_safe_action_api(tmp_path):
     readme = client.post("/api/actions", json={"action_type": "read_file", "parameters": {"path": "README.md"}})
     assert readme.status_code == 200
     assert readme.json()["ok"] is True
+
+
+def test_llm_config_defaults_to_off_and_can_be_changed(tmp_path):
+    client = TestClient(create_app(tmp_path / "brain.sqlite3", safe_root=tmp_path))
+
+    default_config = client.get("/api/llm/config")
+    assert default_config.status_code == 200
+    assert default_config.json()["provider"] == "off"
+
+    changed = client.post(
+        "/api/llm/config",
+        json={
+            "provider": "ollama",
+            "model": "mistral",
+            "base_url": "http://127.0.0.1:11434",
+            "api_key_env": "",
+        },
+    )
+    assert changed.status_code == 200
+    assert changed.json()["provider"] == "ollama"
+    assert changed.json()["model"] == "mistral"
