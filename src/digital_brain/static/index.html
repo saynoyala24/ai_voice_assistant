@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Digital Brain Cognitive OS</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Persistent AI Agent</p>
+          <h1>Digital Brain Cognitive OS</h1>
+          <p class="subtitle">
+            A deterministic cognitive architecture with memory, goals, planning, perception,
+            safe actions, reflection, and autonomous dream cycles.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button id="startLoop">Start autonomous mode</button>
+          <button id="stopLoop" class="ghost">Stop</button>
+          <button id="dream" class="ghost">Dream</button>
+          <button id="reflect" class="ghost">Reflect</button>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card chat-card">
+          <div class="card-title">
+            <div>
+              <h2>Agent Chat</h2>
+              <p class="mini">ChatGPT-style interface powered by the cognitive loop + optional LLM.</p>
+            </div>
+            <div class="status-row">
+              <span id="llmStatus" class="pill">LLM off</span>
+              <span id="loopStatus" class="pill">loading</span>
+            </div>
+          </div>
+          <div id="chatLog" class="chat-log"></div>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" autocomplete="off" placeholder="Ask the agent to think, plan, code, or learn..." />
+            <button>Send</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>AI Model</h2>
+          <p class="mini">Choose no LLM, Ollama local, or any OpenAI-compatible local/server endpoint.</p>
+          <div class="llm-settings">
+            <label>
+              Provider
+              <select id="llmProvider">
+                <option value="off">Off — deterministic brain only</option>
+                <option value="ollama">Ollama local</option>
+                <option value="openai-compatible">OpenAI-compatible endpoint</option>
+              </select>
+            </label>
+            <label>
+              Model
+              <input id="llmModel" placeholder="llama3.1, mistral, qwen2.5..." />
+            </label>
+            <label>
+              Base URL
+              <input id="llmBaseUrl" placeholder="http://127.0.0.1:11434" />
+            </label>
+            <label>
+              API key env var
+              <input id="llmApiKeyEnv" placeholder="optional, e.g. LOCAL_LLM_API_KEY" />
+            </label>
+            <button id="saveLlm" class="small">Save model settings</button>
+            <button id="loadModels" class="ghost small">List Ollama models</button>
+            <div id="modelList" class="mini"></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Hormones</h2>
+          <div id="hormones" class="metrics"></div>
+        </article>
+
+        <article class="card">
+          <h2>Goal Hierarchy</h2>
+          <ol id="goals" class="goal-list"></ol>
+        </article>
+
+        <article class="card">
+          <h2>Working Memory</h2>
+          <div id="workingMemory" class="stack"></div>
+        </article>
+
+        <article class="card wide">
+          <div class="card-title">
+            <h2>System Perception</h2>
+            <button id="observeSystem" class="ghost small">Observe</button>
+          </div>
+          <pre id="systemOutput"></pre>
+        </article>
+
+        <article class="card wide">
+          <div class="card-title">
+            <h2>Memory Browser</h2>
+            <select id="memoryTable">
+              <option value="episodes">Episodes</option>
+              <option value="semantic_facts">Semantic Facts</option>
+              <option value="world_beliefs">World Beliefs</option>
+              <option value="procedural_skills">Procedural Skills</option>
+              <option value="emotional_associations">Emotional Memory</option>
+              <option value="reflections">Reflections</option>
+              <option value="agent_events">Action Log</option>
+            </select>
+          </div>
+          <div id="memoryItems" class="memory-items"></div>
+        </article>
+
+        <article class="card wide">
+          <div class="card-title">
+            <h2>Safe Computer Action</h2>
+            <span class="pill">approval protected</span>
+          </div>
+          <div class="action-grid">
+            <select id="actionType">
+              <option value="open_url">Open URL</option>
+              <option value="read_file">Read file</option>
+              <option value="write_file">Write file</option>
+              <option value="run_command">Run command</option>
+              <option value="mouse_click">Mouse click</option>
+              <option value="keyboard_type">Keyboard type</option>
+              <option value="hotkey">Hotkey</option>
+            </select>
+            <input id="actionParams" value='{"url":"https://example.com"}' />
+            <button id="runAction">Run</button>
+          </div>
+          <pre id="actionOutput"></pre>
+        </article>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
