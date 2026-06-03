@@ -47,6 +47,15 @@ digital-brain-web --host 127.0.0.1 --port 8000
 
 Open `http://127.0.0.1:8000`.
 
+## Run the optional Windows desktop GUI
+
+Install the Windows extras, then launch the PySide6 control panel:
+
+```bash
+python -m pip install -e ".[windows]"
+digital-brain-desktop --database .brain/brain.sqlite3
+```
+
 ## Run bounded cognitive cycles from the CLI
 
 ```bash

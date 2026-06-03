@@ -41,6 +41,7 @@ production = [
 [project.scripts]
 digital-brain = "digital_brain.__main__:main"
 digital-brain-web = "digital_brain.app:main"
+digital-brain-desktop = "digital_brain.desktop:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
